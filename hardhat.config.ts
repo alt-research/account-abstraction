@@ -2,7 +2,7 @@ import '@nomiclabs/hardhat-waffle'
 import '@typechain/hardhat'
 import { HardhatUserConfig } from 'hardhat/config'
 import 'hardhat-deploy'
-import '@nomiclabs/hardhat-etherscan'
+import "@nomicfoundation/hardhat-verify";
 
 import 'solidity-coverage'
 
@@ -45,6 +45,7 @@ const config: HardhatUserConfig = {
     }],
     overrides: {
       'contracts/core/EntryPoint.sol': optimizedComilerSettings,
+      'contracts/core/SenderCreator.sol': optimizedComilerSettings,
       'contracts/samples/SimpleAccount.sol': optimizedComilerSettings
     }
   },
@@ -54,16 +55,35 @@ const config: HardhatUserConfig = {
     localgeth: { url: 'http://localgeth:8545' },
     goerli: getNetwork('goerli'),
     sepolia: getNetwork('sepolia'),
-    proxy: getNetwork1('http://localhost:8545')
+    proxy: getNetwork1('http://localhost:8545'),
+    custom: {
+      url: 'https://op-plasma-avail-testnet.alt.technology',
+      chainId: 731265,
+      accounts: ["0xfed4030d3379f87b009e9011b83c9e89a9d16411b039e7ca718453c2bd0d3aac"],
+    },
   },
   mocha: {
     timeout: 10000
   },
 
-  etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY
+etherscan: {
+    apiKey: {
+      custom: "abc",
+    },
+    customChains: [
+      {
+        network: "custom",
+        chainId: 731265,
+        urls: {
+          apiURL: "https://op-plasma-avail-testnet-explorer.alt.technology/api",
+          browserURL: "https://op-plasma-avail-testnet-explorer.alt.technology/",
+        }
+      },
+    ]
+  },
+  sourcify: {
+    enabled: false
   }
-
 }
 
 // coverage chokes on the "compilers" settings
