@@ -63,8 +63,8 @@ const config: HardhatUserConfig = {
     sepolia: getNetwork('sepolia'),
     proxy: getNetwork1('http://localhost:8545'),
 	custom: {
-      url: 'https://op-plasma-avail-testnet.alt.technology',
-      chainId: 731265,
+      url: '{{ rpcURL }}',
+      chainId: {{ chainId }},
       accounts: ["0xfed4030d3379f87b009e9011b83c9e89a9d16411b039e7ca718453c2bd0d3aac"],
     },
   },
@@ -79,10 +79,10 @@ const config: HardhatUserConfig = {
     customChains: [
       {
         network: "custom",
-        chainId: 731265,
+        chainId: {{ chainId }},
         urls: {
-          apiURL: "https://op-plasma-avail-testnet-explorer.alt.technology/api",
-          browserURL: "https://op-plasma-avail-testnet-explorer.alt.technology/",
+          apiURL: "{{ apiURL }}",
+          browserURL: "{{ browserURL }}",
         }
       },
     ]
